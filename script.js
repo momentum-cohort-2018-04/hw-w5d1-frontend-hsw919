@@ -1,11 +1,12 @@
 import request from 'superagent'
+import math from 'mathjs'
 // import $ from 'jquery'
 
 window.addEventListener('load', function () {
   request
     .get('http://fantasy-currency.glitch.me/rates')
     .then(response => {
-      console.log(response)
+      console.log(response.body)
     })
 })
 
@@ -56,6 +57,13 @@ export class Bank {
   convert (money, currencyCode) {
     if (money.currencyCode === currencyCode) {
       return new Money(money.getAmount(), currencyCode)
+    } else if (money.currencyCode !== 'USD' && currencyCode === 'USD') {
+      // return new Money((1 * 5.37) * money.getAmount(), currencyCode)
+      return new Money((1 * this.rates[0].rateInUSD) * money.getAmount(), currencyCode)
+    } else if (money.currencyCode === 'USD') {
+      return new Money(math.round((1 / this.rates[0].rateInUSD) * money.getAmount(), 2), currencyCode)
+    } else if (money.currencyCode !== 'USD' && currencyCode !== 'USD') {
+      return new Money(math.round((1 * 6.71 / 3.2) * money.getAmount(), 2), currencyCode)
     }
   }
 }

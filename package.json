@@ -9,6 +9,7 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "mathjs": "^4.3.0",
     "superagent": "^3.8.3"
   },
   "scripts": {
